@@ -79,16 +79,18 @@ app/
    - Generate an API key
    - Copy your API key
 
-4. Add your API key to the project:
-   - Open `app/src/main/java/com/min/weatherapp/data/repository/WeatherRepository.kt`
-   - Replace `YOUR_API_KEY_HERE` with your actual API key:
-     ```kotlin
-     private val apiKey = "your_actual_api_key_here"
-     ```
+4. **Add your API key securely** (IMPORTANT - keeps your key out of git):
+    - Copy `local.properties.template` to `local.properties` (if not already exists)
+    - Open `local.properties`
+    - Add your API key:
+       ```properties
+       WEATHER_API_KEY=your_actual_api_key_here
+       ```
+    - **Note:** `local.properties` is already in `.gitignore` and will NOT be committed to git
 
 5. Sync the project with Gradle files
 
-6. Run the app on an emulator or physical device
+6. Build and run the app on an emulator or physical device
 
 ## Usage
 
@@ -152,7 +154,7 @@ This project is open source and available for educational purposes.
 ### Common Issues
 
 1. **No data showing:**
-   - Make sure you've added your API key
+    - Make sure you've added your API key to `local.properties`
    - Check your internet connection
    - Verify the API key is valid
 
@@ -165,11 +167,9 @@ This project is open source and available for educational purposes.
    - Free tier has rate limits (60 calls/minute)
    - Check city name spelling
    - Verify API key is active
+    - New API keys can take up to 2 hours to activate
 
 ## Contact
 
 For questions or suggestions, please open an issue in the repository.
 
----
-
-**Note:** Remember to never commit your API key to version control. Consider using BuildConfig fields or environment variables for production apps.

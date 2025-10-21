@@ -1,13 +1,15 @@
 package com.min.weatherapp.data.api
 
+import com.min.weatherapp.BuildConfig
+
 /**
  * API Configuration for Weather App
  * 
  * IMPORTANT: Get your free API key from https://openweathermap.org/api
- * Replace YOUR_API_KEY_HERE with your actual API key
+ * Add your API key to local.properties: WEATHER_API_KEY=your_key_here
  */
 object ApiConfig {
-    const val API_KEY = "YOUR_API_KEY_HERE"
+    val API_KEY: String = BuildConfig.WEATHER_API_KEY
     const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
     const val UNITS = "metric" // metric = Celsius, imperial = Fahrenheit
     

@@ -13,16 +13,15 @@
 ### Step 2: Add API Key to the App
 
 1. Open the project in Android Studio
-2. Navigate to: `app/src/main/java/com/min/weatherapp/data/repository/WeatherRepository.kt`
-3. Find this line:
-   ```kotlin
-   private val apiKey = "YOUR_API_KEY_HERE"
-   ```
-4. Replace `YOUR_API_KEY_HERE` with your actual API key:
-   ```kotlin
-   private val apiKey = "abc123def456ghi789"  // Your actual key
+2. Look for the `local.properties` file in the project root
+   - If it doesn't exist, copy `local.properties.template` and rename to `local.properties`
+3. Open `local.properties`
+4. Add this line (replace with your actual key):
+   ```properties
+   WEATHER_API_KEY=abc123def456ghi789
    ```
 5. Save the file
+6. **Important:** This file is automatically excluded from git (in `.gitignore`), so your API key stays private!
 
 ### Step 3: Sync and Build
 

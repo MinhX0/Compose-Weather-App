@@ -1,0 +1,11 @@
+## This file is a TEMPLATE for local.properties
+## Copy this file to 'local.properties' and add your actual values
+## DO NOT commit local.properties to version control
+
+# Location of the Android SDK (automatically set by Android Studio)
+# sdk.dir=/path/to/your/Android/Sdk
+
+# OpenWeatherMap API Key
+# Get your free API key from: https://openweathermap.org/api
+# Sign up at: https://home.openweathermap.org/users/sign_up
+WEATHER_API_KEY=YOUR_API_KEY_HERE
