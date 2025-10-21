@@ -5,15 +5,20 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -108,6 +113,8 @@ fun SearchBar(
     onCityNameChange: (String) -> Unit,
     onSearch: () -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    
     OutlinedTextField(
         value = cityName,
         onValueChange = onCityNameChange,
@@ -115,22 +122,45 @@ fun SearchBar(
             .fillMaxWidth()
             .padding(horizontal = 8.dp),
         placeholder = { Text("Enter city name (e.g., London, Tokyo)") },
+        label = { Text("City Name") },
         trailingIcon = {
-            IconButton(
-                onClick = onSearch,
-                enabled = cityName.isNotBlank()
-            ) {
-                Icon(
-                    Icons.Default.Search, 
-                    contentDescription = "Search",
-                    tint = if (cityName.isNotBlank()) 
-                        MaterialTheme.colorScheme.primary 
-                    else 
-                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
-                )
+                Row {
+                    if (cityName.isNotBlank()) {
+                        IconButton(onClick = { onCityNameChange("") }) {
+                            Icon(
+                                Icons.Default.Clear,
+                                contentDescription = "Clear",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                    IconButton(
+                        onClick = onSearch,
+                        enabled = cityName.isNotBlank()
+                    ) {
+                        Icon(
+                            Icons.Default.Search,
+                            contentDescription = "Search",
+                            tint = if (cityName.isNotBlank())
+                                MaterialTheme.colorScheme.primary
+                            else
+                                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                        )
+                    }
             }
         },
         singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Search
+        ),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                if (cityName.isNotBlank()) {
+                    keyboardController?.hide()
+                    onSearch()
+                }
+            }
+        ),
         shape = RoundedCornerShape(16.dp),
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = MaterialTheme.colorScheme.surface,
@@ -307,6 +337,13 @@ fun WeatherContent(weather: WeatherResponse) {
         )
         
         Spacer(modifier = Modifier.height(24.dp))
+        
+            // Last updated timestamp
+            Text(
+                text = "Last updated: ${WeatherUtils.formatTime(weather.dt)}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+            )
         
         // Main weather icon and description
         if (weather.weather.isNotEmpty()) {
