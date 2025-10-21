@@ -29,10 +29,20 @@ class WeatherViewModel(
     }
     
     fun getWeatherByCity(city: String) {
+        if (city.isBlank()) {
+            _uiState.value = WeatherUiState.Error("Please enter a city name")
+            return
+        }
+        
+        if (city.length < 2) {
+            _uiState.value = WeatherUiState.Error("City name must be at least 2 characters")
+            return
+        }
+        
         viewModelScope.launch {
             _uiState.value = WeatherUiState.Loading
             
-            val result = repository.getCurrentWeather(city)
+            val result = repository.getCurrentWeather(city.trim())
             
             _uiState.value = if (result.isSuccess) {
                 WeatherUiState.Success(result.getOrThrow())

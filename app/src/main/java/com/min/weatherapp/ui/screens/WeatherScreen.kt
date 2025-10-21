@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.sp
 import com.min.weatherapp.data.model.WeatherResponse
 import com.min.weatherapp.viewmodel.WeatherUiState
 import com.min.weatherapp.viewmodel.WeatherViewModel
-import java.text.SimpleDateFormat
-import java.util.*
+import com.min.weatherapp.util.WeatherUtils
+import com.min.weatherapp.util.capitalizeWords
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -114,10 +114,20 @@ fun SearchBar(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp),
-        placeholder = { Text("Enter city name") },
+        placeholder = { Text("Enter city name (e.g., London, Tokyo)") },
         trailingIcon = {
-            IconButton(onClick = onSearch) {
-                Icon(Icons.Default.Search, contentDescription = "Search")
+            IconButton(
+                onClick = onSearch,
+                enabled = cityName.isNotBlank()
+            ) {
+                Icon(
+                    Icons.Default.Search, 
+                    contentDescription = "Search",
+                    tint = if (cityName.isNotBlank()) 
+                        MaterialTheme.colorScheme.primary 
+                    else 
+                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                )
             }
         },
         singleLine = true,
@@ -125,26 +135,71 @@ fun SearchBar(
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = MaterialTheme.colorScheme.surface,
             unfocusedContainerColor = MaterialTheme.colorScheme.surface
-        )
+        ),
+        supportingText = {
+            if (cityName.isNotBlank() && cityName.length < 2) {
+                Text(
+                    "City name must be at least 2 characters",
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        }
     )
 }
 
 @Composable
 fun IdleContent() {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "🌤️",
             fontSize = 80.sp,
-            modifier = Modifier.padding(32.dp)
+            modifier = Modifier.padding(vertical = 32.dp)
         )
         Text(
-            text = "Search for a city to see weather",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            text = "Welcome to Weather App!",
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Search for a city to see current weather",
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        
+        // Popular cities suggestions
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
+            )
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "🌍 Try these cities:",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Medium
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "London • Tokyo • Paris • New York\nSydney • Dubai • Singapore",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
     }
 }
 
@@ -173,7 +228,8 @@ fun ErrorContent(message: String) {
             .padding(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.errorContainer
-        )
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
             modifier = Modifier
@@ -187,7 +243,7 @@ fun ErrorContent(message: String) {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Error",
+                text = "Oops!",
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onErrorContainer
@@ -199,6 +255,31 @@ fun ErrorContent(message: String) {
                 color = MaterialTheme.colorScheme.onErrorContainer,
                 textAlign = TextAlign.Center
             )
+            Spacer(modifier = Modifier.height(16.dp))
+            
+            // Troubleshooting tips
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)
+                )
+            ) {
+                Column(
+                    modifier = Modifier.padding(12.dp)
+                ) {
+                    Text(
+                        text = "💡 Quick Tips:",
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "• Check your internet connection\n• Verify city name spelling\n• Try another city",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                }
+            }
         }
     }
 }
@@ -220,7 +301,7 @@ fun WeatherContent(weather: WeatherResponse) {
         
         // Date
         Text(
-            text = formatDate(weather.dt),
+            text = WeatherUtils.formatDate(weather.dt),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -230,16 +311,14 @@ fun WeatherContent(weather: WeatherResponse) {
         // Main weather icon and description
         if (weather.weather.isNotEmpty()) {
             Text(
-                text = getWeatherEmoji(weather.weather[0].main),
+                text = WeatherUtils.getWeatherEmoji(weather.weather[0].main),
                 fontSize = 100.sp
             )
             
             Spacer(modifier = Modifier.height(8.dp))
             
             Text(
-                text = weather.weather[0].description.replaceFirstChar { 
-                    if (it.isLowerCase()) it.titlecase() else it.toString() 
-                },
+                text = weather.weather[0].description.capitalizeWords(),
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -270,7 +349,8 @@ fun WeatherContent(weather: WeatherResponse) {
                 .padding(horizontal = 8.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant
-            )
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
         ) {
             Column(
                 modifier = Modifier
@@ -279,11 +359,17 @@ fun WeatherContent(weather: WeatherResponse) {
             ) {
                 WeatherDetailRow("Min/Max", "${weather.main.tempMin.toInt()}°C / ${weather.main.tempMax.toInt()}°C")
                 Spacer(modifier = Modifier.height(12.dp))
-                WeatherDetailRow("Humidity", "${weather.main.humidity}%")
+                WeatherDetailRow(
+                    "Humidity", 
+                    "${weather.main.humidity}% (${WeatherUtils.getHumidityDescription(weather.main.humidity)})"
+                )
                 Spacer(modifier = Modifier.height(12.dp))
                 WeatherDetailRow("Pressure", "${weather.main.pressure} hPa")
                 Spacer(modifier = Modifier.height(12.dp))
-                WeatherDetailRow("Wind Speed", "${weather.wind.speed} m/s")
+                WeatherDetailRow(
+                    "Wind", 
+                    "${weather.wind.speed} m/s ${WeatherUtils.getWindDirection(weather.wind.deg)}"
+                )
                 Spacer(modifier = Modifier.height(12.dp))
                 WeatherDetailRow("Visibility", "${weather.visibility / 1000} km")
                 Spacer(modifier = Modifier.height(12.dp))
@@ -300,8 +386,8 @@ fun WeatherContent(weather: WeatherResponse) {
                 .padding(horizontal = 8.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            SunTimeCard("Sunrise", formatTime(weather.sys.sunrise), "🌅")
-            SunTimeCard("Sunset", formatTime(weather.sys.sunset), "🌇")
+            SunTimeCard("Sunrise", WeatherUtils.formatTime(weather.sys.sunrise), "🌅")
+            SunTimeCard("Sunset", WeatherUtils.formatTime(weather.sys.sunset), "🌇")
         }
     }
 }
@@ -332,7 +418,8 @@ fun SunTimeCard(label: String, time: String, emoji: String) {
             .width(160.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer
-        )
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
             modifier = Modifier
@@ -354,30 +441,5 @@ fun SunTimeCard(label: String, time: String, emoji: String) {
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )
         }
-    }
-}
-
-fun formatDate(timestamp: Long): String {
-    val sdf = SimpleDateFormat("EEEE, MMMM dd, yyyy", Locale.getDefault())
-    return sdf.format(Date(timestamp * 1000))
-}
-
-fun formatTime(timestamp: Long): String {
-    val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-    return sdf.format(Date(timestamp * 1000))
-}
-
-fun getWeatherEmoji(weatherMain: String): String {
-    return when (weatherMain.lowercase()) {
-        "clear" -> "☀️"
-        "clouds" -> "☁️"
-        "rain" -> "🌧️"
-        "drizzle" -> "🌦️"
-        "thunderstorm" -> "⛈️"
-        "snow" -> "❄️"
-        "mist", "fog" -> "🌫️"
-        "haze" -> "🌫️"
-        "smoke" -> "💨"
-        else -> "🌤️"
     }
 }
