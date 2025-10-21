@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.min.weatherapp.data.model.WeatherResponse
 import com.min.weatherapp.data.repository.WeatherRepository
+import com.min.weatherapp.util.Constants
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,7 +26,7 @@ class WeatherViewModel(
     
     init {
         // Load default city weather on start
-        getWeatherByCity("London")
+        getWeatherByCity(Constants.Defaults.DEFAULT_CITY)
     }
     
     fun getWeatherByCity(city: String) {
