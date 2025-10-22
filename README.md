@@ -38,6 +38,3 @@ Or open in Android Studio and press Run.
 ## Troubleshooting
 - No data loading: ensure your API key is set and your device/emulator has internet.
 - 401/404 from API: check city spelling and that your key is active (new keys can take up to ~2 hours).
-
-## License
-No license file is included. Unless a license is added, all rights are reserved by the repository owner.
