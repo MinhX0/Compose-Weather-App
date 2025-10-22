@@ -1,3 +1,59 @@
 <resources>
     <string name="app_name">Weather App</string>
+    
+    <!-- Navigation Drawer -->
+    <string name="drawer_saved_locations">Saved Locations</string>
+    <string name="drawer_language">Language</string>
+    <string name="drawer_language_english">English</string>
+    <string name="drawer_language_vietnamese">Tiếng Việt</string>
+    <string name="drawer_no_saved_locations">No saved locations yet</string>
+    <string name="drawer_save_current">Save current location</string>
+    <string name="drawer_remove">Remove</string>
+    
+    <!-- Search -->
+    <string name="search_hint">Enter city name (e.g., London, Tokyo)</string>
+    <string name="search_label">City Name</string>
+    <string name="search_error_min_length">City name must be at least 2 characters</string>
+    
+    <!-- Welcome Screen -->
+    <string name="welcome_title">Welcome to Weather App!</string>
+    <string name="welcome_subtitle">Search for a city to see current weather</string>
+    <string name="popular_cities_title">Try these cities:</string>
+    <string name="popular_cities_list">London • Tokyo • Paris • New York\nSydney • Dubai • Singapore</string>
+    
+    <!-- Loading -->
+    <string name="loading">Loading weather data…</string>
+    
+    <!-- Error Screen -->
+    <string name="error_title">Oops!</string>
+    <string name="error_tips_title">Quick Tips:</string>
+    <string name="error_tips_content">• Check your internet connection\n• Verify city name spelling\n• Try another city</string>
+    
+    <!-- Weather Screen -->
+    <string name="last_updated">Last updated: %1$s</string>
+    <string name="feels_like">Feels like %1$d°C</string>
+    
+    <!-- Weather Details -->
+    <string name="min_max_temp">Min/Max</string>
+    <string name="min_max_temp_value">%1$d°C / %2$d°C</string>
+    <string name="humidity">Humidity</string>
+    <string name="humidity_value">%1$d%% (%2$s)</string>
+    <string name="pressure">Pressure</string>
+    <string name="pressure_value">%1$d hPa</string>
+    <string name="wind">Wind</string>
+    <string name="wind_value">%1$.1f m/s %2$s</string>
+    <string name="visibility">Visibility</string>
+    <string name="visibility_value">%1$d km</string>
+    <string name="cloudiness">Cloudiness</string>
+    <string name="cloudiness_value">%1$d%%</string>
+    
+    <!-- Sun Times -->
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    
+    <!-- Humidity Descriptions -->
+    <string name="humidity_dry">Dry</string>
+    <string name="humidity_comfortable">Comfortable</string>
+    <string name="humidity_humid">Humid</string>
+    <string name="humidity_very_humid">Very Humid</string>
 </resources>

@@ -1,5 +1,8 @@
 package com.min.weatherapp.util
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.min.weatherapp.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -66,12 +69,13 @@ object WeatherUtils {
     /**
      * Get humidity level description
      */
+    @Composable
     fun getHumidityDescription(humidity: Int): String {
         return when {
-            humidity < 30 -> "Dry"
-            humidity < 60 -> "Comfortable"
-            humidity < 80 -> "Humid"
-            else -> "Very Humid"
+            humidity < 30 -> stringResource(R.string.humidity_dry)
+            humidity < 60 -> stringResource(R.string.humidity_comfortable)
+            humidity < 80 -> stringResource(R.string.humidity_humid)
+            else -> stringResource(R.string.humidity_very_humid)
         }
     }
     

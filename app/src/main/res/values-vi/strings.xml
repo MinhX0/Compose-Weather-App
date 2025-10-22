@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dự Báo Thời Tiết</string>
+    
+    <!-- Navigation Drawer -->
+    <string name="drawer_saved_locations">Địa Điểm Đã Lưu</string>
+    <string name="drawer_language">Ngôn Ngữ</string>
+    <string name="drawer_language_english">English</string>
+    <string name="drawer_language_vietnamese">Tiếng Việt</string>
+    <string name="drawer_no_saved_locations">Chưa có địa điểm nào được lưu</string>
+    <string name="drawer_save_current">Lưu địa điểm hiện tại</string>
+    <string name="drawer_remove">Xóa</string>
+    
+    <!-- Search -->
+    <string name="search_hint">Nhập tên thành phố (ví dụ: London, Tokyo)</string>
+    <string name="search_label">Tên Thành Phố</string>
+    <string name="search_error_min_length">Tên thành phố phải có ít nhất 2 ký tự</string>
+    
+    <!-- Welcome Screen -->
+    <string name="welcome_title">Chào mừng đến với Dự Báo Thời Tiết!</string>
+    <string name="welcome_subtitle">Tìm kiếm một thành phố để xem thời tiết hiện tại</string>
+    <string name="popular_cities_title">Thử các thành phố này:</string>
+    <string name="popular_cities_list">London • Tokyo • Paris • New York\nSydney • Dubai • Singapore</string>
+    
+    <!-- Loading -->
+    <string name="loading">Đang tải dữ liệu thời tiết…</string>
+    
+    <!-- Error Screen -->
+    <string name="error_title">Rất tiếc!</string>
+    <string name="error_tips_title">Mẹo nhanh:</string>
+    <string name="error_tips_content">• Kiểm tra kết nối mạng\n• Kiểm tra chính tả tên thành phố\n• Thử một thành phố khác</string>
+    
+    <!-- Weather Screen -->
+    <string name="last_updated">Cập nhật lúc: %1$s</string>
+    <string name="feels_like">Cảm giác như %1$d°C</string>
+    
+    <!-- Weather Details -->
+    <string name="min_max_temp">Thấp/Cao</string>
+    <string name="min_max_temp_value">%1$d°C / %2$d°C</string>
+    <string name="humidity">Độ ẩm</string>
+    <string name="humidity_value">%1$d%% (%2$s)</string>
+    <string name="pressure">Áp suất</string>
+    <string name="pressure_value">%1$d hPa</string>
+    <string name="wind">Gió</string>
+    <string name="wind_value">%1$.1f m/s %2$s</string>
+    <string name="visibility">Tầm nhìn</string>
+    <string name="visibility_value">%1$d km</string>
+    <string name="cloudiness">Mây</string>
+    <string name="cloudiness_value">%1$d%%</string>
+    
+    <!-- Sun Times -->
+    <string name="sunrise">Bình minh</string>
+    <string name="sunset">Hoàng hôn</string>
+    
+    <!-- Humidity Descriptions -->
+    <string name="humidity_dry">Khô</string>
+    <string name="humidity_comfortable">Dễ chịu</string>
+    <string name="humidity_humid">Ẩm</string>
+    <string name="humidity_very_humid">Rất ẩm</string>
+</resources>

@@ -80,6 +80,10 @@ dependencies {
     // Coil for image loading
     implementation(libs.coil.compose)
     
+    // AppCompat
+    implementation(libs.androidx.appcompat)
+    implementation(libs.appcompat)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
